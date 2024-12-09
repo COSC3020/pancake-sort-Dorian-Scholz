@@ -12,7 +12,8 @@ function flip(array, n)
     return array;
 }
 
-function pancakeSort(array) {
+function pancakeSort(array) 
+{
     
     for (let size = array.length; size > 1; size--) 
     {
