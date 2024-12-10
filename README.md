@@ -29,3 +29,5 @@ What is the asymptotic runtime ($\Theta$) of your algorithm in terms of the
 number of comparisons? What is it in terms of the number of flips? Add your
 answer to this markdown file.
 
+Answer: The pancakeSort algorithm has an asymptotic runtime of Θ(n^2) in terms of the number of comparisons, since it finds the maximum element in the unsorted portion of the array by scanning through the remaining elements, requiring 
+n−1,n−2, ..., down to 1 comparisons. In terms of the number of flips, the algorithm performs at most two flips per iteration to move the largest element into its correct position, resulting in a total of Θ(n) flips, as it runs for n−1 iterations. Therefore, the overall time complexity is dominated by the comparison steps, with Θ(n^2) comparisons and Θ(n) flips.
