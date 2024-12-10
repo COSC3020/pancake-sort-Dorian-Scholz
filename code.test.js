@@ -1,53 +1,29 @@
 const fs = require('fs');
 const jsc = require('jsverify');
 
+eval(fs.readFileSync('code.js')+'');
 
-function flip(array, n) 
-{
-    let left = 0;
-    let right = n - 1;
-    while (left < right)
+const testSort =
+    jsc.forall("array nat", function(arr) 
     {
-        [array[left], array[right]] = [array[right], array[left]];
-        left++;
-        right--;
-    }
-    return array;
-}
-
-
-function pancakeSort(array) 
-{
-    for (let size = array.length; size > 1; size--)
-    {
-        let minIndex = 0;
-        for (let i = 1; i < size; i++) 
-        {
-            if (array[i] < array[minIndex])
-            {
-                minIndex = i;
-            }
-        }
-        if (minIndex !== size - 1) 
-        {
-            if (minIndex > 0) 
-            {
-                flip(array, minIndex + 1);
-            }
-            flip(array, size);
-        }
-    }
-    return array;
-}
-
-
-const testSort = jsc.forall("array nat", function(arr)
-{
-    let a1 = JSON.parse(JSON.stringify(arr));
-    let a2 = JSON.parse(JSON.stringify(arr));
-    return JSON.stringify(pancakeSort(a1)) ===
-           JSON.stringify(a2.sort((a, b) => a - b));
-});
+        var a1 = JSON.parse(JSON.stringify(arr));
+        var a2 = JSON.parse(JSON.stringify(arr));
+        return JSON.stringify(pancakeSort(a1)) ==
+            JSON.stringify(a2.sort(function(a, b) { return a - b; }));
+    });
 
 jsc.assert(testSort);
 
+const testFlip =
+    jsc.forall("array nat, nat", function(arr, n)
+        {
+        if (n >= 0 && n <= arr.length) {
+            var a1 = JSON.parse(JSON.stringify(arr));
+            var flipped = flip(a1, n);
+            var expected = arr.slice(0, n).reverse().concat(arr.slice(n));
+            return JSON.stringify(flipped) === JSON.stringify(expected);
+        }
+        return true;
+    });
+
+jsc.assert(testFlip);
