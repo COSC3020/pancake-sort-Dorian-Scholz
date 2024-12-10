@@ -1,40 +1,23 @@
 function flip(array, n) 
 {
-    
-    let left = 0;
-    let right = n - 1;
-    while (left < right) 
-    {
-        [array[left], array[right]] = [array[right], array[left]];
-        left++;
-        right--;
-    }
-    return array;
+    return array.slice(0, n).reverse().concat(array.slice(n));
 }
 
 function pancakeSort(array) 
 {
-    
-    for (let size = array.length; size > 1; size--) 
+    for (let i = array.length; i > 1; i--) 
     {
-        
-        let minIndex = 0;
-        for (let i = 1; i < size; i++) 
-        {
-            if (array[i] < array[minIndex]) 
+        let maxIndex = 0;
+        for (let j = 1; j < i; j++) {
+            if (array[j] > array[maxIndex])
             {
-                minIndex = i;
+                maxIndex = j;
             }
         }
-
-        
-        if (minIndex !== size - 1) 
+        if (maxIndex !== i - 1) 
         {
-            if (minIndex > 0) 
-            {
-                flip(array, minIndex + 1); 
-            }
-            flip(array, size); 
+            flip(array, maxIndex + 1);
+            flip(array, i);
         }
     }
     return array;
