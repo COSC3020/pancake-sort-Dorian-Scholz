@@ -3,6 +3,7 @@ const jsc = require('jsverify');
 
 eval(fs.readFileSync('code.js')+'');
 
+// Test pancakeSort
 const testSort =
     jsc.forall("array nat", function(arr) {
         var a1 = JSON.parse(JSON.stringify(arr));
@@ -12,6 +13,13 @@ const testSort =
                 { return a - b; }));
     });
 
-jsc.assert(testSort);
+// Test flip
+const testFlip =
+    jsc.forall("array nat", "nat", function(arr, n) {
+        var a1 = JSON.parse(JSON.stringify(arr));
+        var flipped = flip(a1, n);
+        return JSON.stringify(flipped.slice(0, n).reverse().concat(a1.slice(n))) === JSON.stringify(flipped);
+    });
 
-// test flip
+jsc.assert(testSort);
+jsc.assert(testFlip);
